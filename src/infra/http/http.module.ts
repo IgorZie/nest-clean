@@ -10,23 +10,21 @@ import { PrismaQuestionCommentsRepository } from "../database/prisma/repositorie
 import { PrismaAnswerAttachmentsRepository } from "../database/prisma/repositories/prisma-answers-attachments-repository";
 import { PrismaAnswerCommentsRepository } from "../database/prisma/repositories/prisma-answers-comments-repository";
 import { PrismaAnswersRepository } from "../database/prisma/repositories/prisma-answers-repository";
+import { CreateQuestionUseCase } from "src/domain/forum/application/use-cases/create-question";
+import { DatabaseModule } from "../database/database.module";
+import { FetchRecentQuestionsUseCase } from "src/domain/forum/application/use-cases/fetch-recent-questions";
 
 @Module({
+    imports: [DatabaseModule],
     controllers: [ 
         CreateAccountController, 
         AuthenticateController, 
         CreateQuestionController, 
         FetchRecentQuestionsController
     ],
-    providers: [PrismaService],
-    exports: [
-        PrismaService,
-        PrismaQuestionsRepository,
-        PrismaQuestionAttachmentsRepository,
-        PrismaQuestionCommentsRepository,
-        PrismaAnswerAttachmentsRepository,
-        PrismaAnswerCommentsRepository,
-        PrismaAnswersRepository
+    providers: [
+        CreateQuestionUseCase,
+        FetchRecentQuestionsUseCase
     ]
 })
 export class HttpModule {}
